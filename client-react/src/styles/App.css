@@ -2,6 +2,26 @@ body {
     background: linear-gradient(90deg, #A18CD1 0%, #FBC2EB 100%);
 }
 
+.cursor-container {
+    position: relative;
+}
+
+.cursor-image {
+    position: absolute;
+    width: 15px;
+    height: 20px;
+}
+
+.cursor-name-tag {
+    /* position: relative; */
+    display: block;
+    background-color: #333333;
+    color: #fff;
+    padding: .2rem .5rem;
+    border-radius: 16px;
+    margin-left: 20px;
+}
+
 .chat-container {
     display: flex;
     flex-direction: column;
