@@ -1,7 +1,19 @@
+import { ChangeEvent, useState } from "react"
+
 export function MessageInput() {
+
+    const [newMessage, setNewMessage] = useState('')
+
+    function onMessageInput(event: ChangeEvent<HTMLTextAreaElement>) {
+        setNewMessage(event.currentTarget.value)
+    }
+
     return (
         <div className='container-text-input'>
-          <textarea value={"C1ommodo elit excepteur tempor amet officia laborum incididunt et. Cillum commodo occaecat do et in aute aliquip Lorem pariatur enim. Ea ea est mollit eiusmod aliqua ullamco. Proident ea deserunt in eu esse est et ea eu. Elit quis nisi commodo incididunt velit eiusmod nisi ea voluptate sunt."}/>
+          <textarea onChange={onMessageInput} value={newMessage}/>
+
+          {newMessage}
         </div>
+        
     )
 }
