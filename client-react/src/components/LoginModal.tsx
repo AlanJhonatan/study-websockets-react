@@ -15,9 +15,11 @@ export function LoginModal(props: LoginModalProps) {
             <Dialog.Portal>
             <Dialog.Overlay className='modal-overlay' />
             <Dialog.Content className='modal-content'>
-                <Dialog.Title />
-                <Dialog.Description />
-                <Dialog.Close />
+                <Dialog.Title>
+                    Some random title
+                </Dialog.Title>
+                <Dialog.Description>Some random descriptions</Dialog.Description>
+                <Dialog.Close>X</Dialog.Close>
             </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
