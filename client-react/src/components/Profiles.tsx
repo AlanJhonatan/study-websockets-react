@@ -1,7 +1,12 @@
 import { useState } from "react"
 
+interface Profile {
+    id: string,
+    name: string
+}
+
 export function Profiles() {
-    const [profiles, setProfiles] = useState([
+    const profileMock = [
         {
             id: crypto.randomUUID(),
             name: "Alan Jhonatan",
@@ -10,8 +15,13 @@ export function Profiles() {
             id: crypto.randomUUID(),
             name: "Munique Mello",
         }
-    ])
+    ]
 
+    const [profiles, _] = useState<Profile[]>(profileMock)
+
+    // function addProfile(data: Profile) {
+    //     setProfiles(current => ([...current, data]))
+    // }
 
     return (
         <div className='container-profiles'>
