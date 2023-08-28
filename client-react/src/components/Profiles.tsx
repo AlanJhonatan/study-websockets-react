@@ -1,27 +1,8 @@
-import { useState } from "react"
-
-interface Profile {
-    id: string,
-    name: string
-}
+import { useContext } from "react"
+import { ChatContext } from "../context/ChatContext"
 
 export function Profiles() {
-    const profileMock = [
-        {
-            id: crypto.randomUUID(),
-            name: "Alan Jhonatan",
-        },
-        {
-            id: crypto.randomUUID(),
-            name: "Munique Mello",
-        }
-    ]
-
-    const [profiles, _] = useState<Profile[]>(profileMock)
-
-    // function addProfile(data: Profile) {
-    //     setProfiles(current => ([...current, data]))
-    // }
+    const { profiles } = useContext(ChatContext)
 
     return (
         <div className='container-profiles'>
@@ -29,7 +10,7 @@ export function Profiles() {
                 profiles.map((profile) => {
                     return (
                         <div key={profile.id}>
-                            {profile.name}
+                            {profile.user}
                         </div>
                     )
                 })
