@@ -1,23 +1,14 @@
-import { useEffect } from 'react'
-import { socket } from './api/socket'
 import { MessageInput } from './components/MessageInput'
 import { Messages } from './components/Messages'
 import { Profiles } from './components/Profiles'
 
 import { LoginModal } from './components/LoginModal'
-import { ChatContextProvider } from './context/ChatContext'
+import { ChatContextProvider } from './context/ChatContextProvider'
 import './styles/App.css'
 
 // import cursorImage from './assets/cursor.png'
 
 export function App() {
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('connected !')
-    })
-  }, [])
-  
   return (
     <>
       <ChatContextProvider>
