@@ -10,7 +10,7 @@ export function Profiles() {
                 profiles.map((profile) => {
                     return (
                         <div key={profile.id}>
-                            {profile.user}
+                            {profile.name}
                         </div>
                     )
                 })

@@ -1,40 +1,24 @@
-import { useEffect, useState } from "react"
-
+import { useContext } from "react"
+import { ChatContext } from "../context/ChatContext"
 
 export function Messages() {
-    const messagesMock = [{
-            id: crypto.randomUUID(),
-            text: "some random message 1",
-            profile: "Alan Jhonatan",
-            createdAt: new Date(),
-    }]
-    
-
-    const [messages, setMessages] = useState([...messagesMock])
-
-    function addMessage() {
-        const newMessage = {
-            id: crypto.randomUUID(),
-            text: "some random message " + new Date(),
-            profile: "Munique Mello",
-            createdAt: new Date(),
-        }
-
-        setMessages([...messages, newMessage])
-    }
-
-    useEffect(() => {
-        addMessage()
-    }, [])
+    const { messages } = useContext(ChatContext)
 
     return (
         <div className='container-messages'>
             {
-                messages.map((message) => (
-                    <div key={message.id}>
-                        <strong>[{message.profile}]</strong> {message.text}
-                    </div>
-                ))
+                messages.map((message) => {
+                    const hours = new Date(message.timestamp).getHours()
+                    const minutes = new Date(message.timestamp).getMinutes()
+                    
+                    return (
+                        (
+                            <div key={message.timestamp}>
+                                <strong>[{`${message.from} at ${hours}:${minutes}`}]</strong> {message.text}
+                            </div>
+                        )
+                    )
+                })
             }
         </div>
     )
