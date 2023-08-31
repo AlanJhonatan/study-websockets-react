@@ -25,7 +25,9 @@ export function App() {
           </div>
 
           <div>
-            <strong>Alan Jhonatan</strong> is typing...
+            <div>
+              <strong>Alan Jhonatan</strong> is typing...
+            </div>
             <MessageInput />
           </div>
         </div>
