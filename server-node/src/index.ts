@@ -1,5 +1,5 @@
 import { Server } from "socket.io"
-import { IProfile } from "./Types"
+import { IProfile, SocketMessage } from "./Types"
 
 const io = new Server(3000, {
     cors: {
@@ -7,37 +7,39 @@ const io = new Server(3000, {
     }
 })
 
-type SocketProfile = IProfile & { socketId: string }
+type SocketProfile = IProfile
 
 let socketProfiles: SocketProfile[] = []
-
-function listProfiles(profiles: SocketProfile[]) {
-    return profiles.map(profile => ({
-        id: profile.id,
-        user: profile.user
-    }))
-}
+let socketMessages: SocketMessage[] = []
 
 io.on("connection", (socket) => {
-    socket.emit('initialProfiles', listProfiles(socketProfiles))
+    console.log('new connection:', socket.id)
     
-    socket.on("login", (data: IProfile) => {
-        const currentSocket = {
-            socketId: socket.id,
-            ...data,
+    socket.on("login", ({ name }) => {
+        const profile = {
+            id: socket.id,
+            name,
         }
 
-        socketProfiles.push(currentSocket)
-        socket.emit('addProfile', data)
+        socketProfiles.push(profile)
+        socket.emit('doLogin', profile)
+        socket.emit('initialProfiles', socketProfiles)
+        socket.emit('initialMessages', socketMessages)
+        
+        socket.broadcast.emit('addProfile', profile)
+    })
 
-        console.log('login', socketProfiles)
+    socket.on('sendMessage', (message: SocketMessage) => {
+        socketMessages.push(message)
+
+        console.log('new message: ', message)
+        socket.broadcast.emit('receiveMessage', message)
     })
 
     socket.on("disconnect", () => {
-        socketProfiles = socketProfiles.filter(socketProfile => socket.id !== socketProfile.socketId)
+        socketProfiles = socketProfiles.filter(socketProfile => socket.id !== socketProfile.id)
 
-        socket.emit("updateProfiles", listProfiles(socketProfiles))
-        console.log('onDisconnect', socketProfiles)
+        socket.broadcast.emit("disconnectProfile", socket.id)
     })
 })
 
