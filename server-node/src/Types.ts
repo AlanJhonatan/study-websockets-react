@@ -1,6 +1,7 @@
 export interface IProfile {
     id: string
-    name: string 
+    name: string
+    typing?: boolean
 }
 
 export interface SocketMessage {
