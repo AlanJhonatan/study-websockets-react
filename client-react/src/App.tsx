@@ -3,6 +3,7 @@ import { Messages } from './components/Messages'
 import { Profiles } from './components/Profiles'
 
 import { LoginModal } from './components/LoginModal'
+import { TypeIndicator } from './components/TypingIndicator'
 import { ChatContextProvider } from './context/ChatContextProvider'
 import './styles/App.css'
 
@@ -25,9 +26,7 @@ export function App() {
           </div>
 
           <div>
-            <div>
-              <strong>Alan Jhonatan</strong> is typing...
-            </div>
+            <TypeIndicator />
             <MessageInput />
           </div>
         </div>

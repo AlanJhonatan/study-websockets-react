@@ -8,9 +8,13 @@ interface ChatContextProviderProps {
 
 export function ChatContextProvider({ children }: ChatContextProviderProps) {
     const [user, setUser] = useState<string>('')
+    const [socketId, setSocketId] = useState<string>('')
     const [messages, setMessages] = useState<MessageData[]>([])
+    const [profilesTyping, setProfilesTyping] = useState<string[]>([])
+    
     const [isLoginEnabled, setIsLoginEnabled] = useState<boolean>(true)
     const [profiles, setProfiles] = useState<ProfileData[]>([])
+
 
     const doLogin = useCallback(
         (name: string) => {
@@ -36,8 +40,14 @@ export function ChatContextProvider({ children }: ChatContextProviderProps) {
         [user]
     )
 
+    const setTypingStatus = useCallback((status: boolean) => {
+        socket.emit('profileTyping', { socketId, status })
+        console.log('typing:', { socketId, status })
+    }, [socketId])
+
     useEffect(() => {
         socket.on('doLogin', (profile: { id: string, name: string }) => {
+            setSocketId(profile.id)
             console.log('login done as:', user, profile)
         })
 
@@ -65,15 +75,17 @@ export function ChatContextProvider({ children }: ChatContextProviderProps) {
             setProfiles(prevState => prevState.filter(profile => profile.id !== profileId))
         })
 
-        // socket.on("updateProfiles", (profiles: ProfileData[]) => {
-        //     setProfiles(profiles)
-        // })
+        socket.on("updateProfilesTyping", (profilesTyping: string[]) => {
+            setProfilesTyping(profilesTyping)
+            console.log('someone is typing...', profilesTyping)
+        })
 
         return () => {
             socket.off('addProfile')
             socket.off('initialProfiles')
             socket.off('initialMessages')
             socket.off('disconnectProfile')
+            socket.off('receiveMessage')
             // some cleanup functions
         }
     }, [])
@@ -90,9 +102,10 @@ export function ChatContextProvider({ children }: ChatContextProviderProps) {
             profiles,
             messages,
             isLoginEnabled,
+            profilesTyping,
             doLogin,
             sendMessage,
-            // addProfile
+            setTypingStatus,
         }}>
             {children}
         </ChatContext.Provider>
