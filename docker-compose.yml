@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  # client-react:
+  #   build:
+  #     context: ./client-react # Pasta onde está o Dockerfile do client
+  #   ports:
+  #     - "4000:4000" # Mapeamento de porta do host para o contêiner
+  #   volumes:
+  #     - ./client-react:/app # Mapeamento de volume para o código-fonte
+
+  server-node:
+    build:
+      context: ./server-node # Pasta onde está o Dockerfile do server
+    ports:
+      - "3100:4000" # Mapeamento de porta do host para o contêiner
+    volumes:
+      - ./server-node:/app # Mapeamento de volume para o código-fonte
