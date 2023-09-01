@@ -36,6 +36,29 @@ io.on("connection", (socket) => {
         socket.broadcast.emit('receiveMessage', message)
     })
 
+    socket.on('profileTyping', (data: { socketId: string, status: boolean }) => {
+        const profileIndex = socketProfiles.findIndex(profile => profile.id === data.socketId)
+        
+        if(profileIndex < 0) {
+            return
+        }
+
+        socketProfiles[profileIndex] = {
+            ...socketProfiles[profileIndex],
+            typing: data.status,
+        }
+
+        console.log(socketProfiles)
+
+        const typingProfiles = socketProfiles
+            .filter(profile => profile.typing)
+            .map(profile => profile.name)
+
+        socket.broadcast.emit('updateProfilesTyping', typingProfiles)
+        
+        console.log('typing profiles:', typingProfiles)
+    })
+
     socket.on("disconnect", () => {
         socketProfiles = socketProfiles.filter(socketProfile => socket.id !== socketProfile.id)
 
@@ -43,7 +66,5 @@ io.on("connection", (socket) => {
     })
 })
 
-
-
-
 io.listen(4000)
+console.log('listening at 4000 (locally)')
