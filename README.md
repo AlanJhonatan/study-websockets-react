@@ -1,4 +1,4 @@
-# study-websockets-react
+# Study with React & Websockets
 An simple chat app using Typescript + React and Websockets to my students. 😊👋
 
 ## What was learned from it ?
